@@ -36,7 +36,6 @@
             $strFile = "$strRootDir/composer.json";
             $strJSON = file_get_contents($strFile);
             $aryJSON = json_decode($strJSON, true);
-            $aryJSON = Script::getJSON($objEvent);
             if(isset($aryJSON["delete"])) 
             {
                 Scripts::delete($objEvent, $strRootDir, $aryJSON["delete"]);
@@ -71,7 +70,7 @@
                 }
                 else 
                 {
-                    $strRootDir = realpath(__DIR__.$strPackageDir);
+                    $strRootDir = realpath(__DIR__.DIRECTORY_SEPARATOR.$strPackageDir);
                 }
                 $strFile = "$strRootDir/composer.json";
                 if(!file_exists("$strRootDir/composer.json"))
