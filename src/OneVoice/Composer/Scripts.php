@@ -26,14 +26,29 @@
          * 
          * @param \Composer\Script\Event $objEvent
          * 
-         * @since 08. July 2013, v. 8.00
+         * @since 08. July 2013, v. 1.00
          * 
          * @return void
          */
         public static function perform(Event $objEvent) 
         {
+            $strRootDir = Script::getRootDir($objEvent);
+            $strFile = "$strRootDir/composer.json";
+            $strJSON = file_get_contents($strFile);
+            $aryJSON = json_decode($strJSON, true);
+            $aryJSON = Script::getJSON($objEvent);
+            if(isset($aryJSON["delete"])) 
+            {
+                Scripts::delete($objEvent, $strRootDir, $aryJSON["delete"]);
+            }
+                        
+        }// perform
+        
+        
+        private static function getRootDir($objEvent)
+        {
             $strRelDir = "/".str_repeat("../", 6);
-            $strRootDir = realpath(dirname(__FILE__).$strRelDir);
+            $strRootDir = realpath(__DIR__.$strRelDir);
             $strFile = "$strRootDir/composer.json";
             if(!file_exists($strFile))
             {
@@ -49,15 +64,32 @@
                         'see https://github.com/onevoice-no/composer-scripts#composer-scripts'."\n"
                     );
                 }
+                $strPackageDir = rtrim($aryExtra["extra"]["package-dir"], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+                if(strpos($strPackageDir, DIRECTORY_SEPARATOR) === 0)
+                {
+                    $strRootDir = $strPackageDir;
+                }
+                else 
+                {
+                    $strRootDir = realpath(__DIR__.$strPackageDir);
+                }
+                $strFile = "$strRootDir/composer.json";
+                if(!file_exists("$strRootDir/composer.json"))
+                {
+                    trigger_error
+                    (
+                        "File [$strFile] not found. \n" . 
+                        'Modify "extra" : { "package-dir" : "/path/to/root/package"} in composer.json'."\n\n".
+                        'see http://getcomposer.org/doc/04-schema.md#root-package'."\n".
+                        'see http://getcomposer.org/doc/04-schema.md#extra'."\n".
+                        'see https://github.com/onevoice-no/composer-scripts#composer-scripts'."\n"
+                    );
+                }                
             }
-            $strJSON = file_get_contents($strFile);
-            $aryJSON = json_decode($strJSON, true);
-            if(isset($aryJSON["delete"])) 
-            {
-                Scripts::delete($objEvent, $strRootDir, $aryJSON["delete"]);
-            }
-                        
-        }// perform
+            
+            return $strRootDir;
+
+        }// getRootDir
         
         
         /**
