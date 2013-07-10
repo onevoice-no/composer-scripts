@@ -221,7 +221,7 @@
                 foreach($aryExclude as $strRegex)
                 {
                     $strExclude .= "|";
-                    $strExclude .= $strRoot.DIRECTORY_SEPARATOR.preg_quote($strRegex);
+                    $strExclude .= rtrim($strRoot.DIRECTORY_SEPARATOR.preg_quote($strRegex), DIRECTORY_SEPARATOR);
                 }
                 $strExclude = "(?<!$strExclude)";
             }
@@ -232,7 +232,7 @@
                 foreach($aryInclude as $strInclude)
                 {
                     if($strRegex) $strRegex .= "|";
-                    $strRegex .= $strRoot.DIRECTORY_SEPARATOR.preg_quote($strInclude).$strExclude;
+                    $strRegex .= rtrim($strRoot.DIRECTORY_SEPARATOR.preg_quote($strInclude), DIRECTORY_SEPARATOR).$strExclude;
                 }
             }
             else $strRegex = ".*$strExclude";
