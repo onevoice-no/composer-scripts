@@ -32,7 +32,7 @@ Use `<VERSION>` "dev-master" to track master branch, or select one of these
 **Custom vendor-dir**
 
 If a custom `vendor-dir` is given (see [config](http://getcomposer.org/doc/04-schema.md#config)), 
-add the following object to "extra":
+add the following object to "extra" in `composer.json`:
 
 ```json
 "extra": 
@@ -40,8 +40,6 @@ add the following object to "extra":
   "package-dir" : "/path/to/root/package"
 }
 ```
-
-to `composer.json`.
 
 **"delete" script**
 
