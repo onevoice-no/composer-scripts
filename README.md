@@ -3,7 +3,7 @@ composer-scripts
 
 This repo contains common scripts for [Composer PHP Dependency Manager](http://getcomposer.org/).
 
-**Composer script hooks**
+### Composer script hooks ###
 
 All scripts in this package implements a PHP callback (defined as a static method) 
 [which Composer is able to invoke](http://getcomposer.org/doc/articles/scripts.md#defining-scripts).
@@ -29,7 +29,7 @@ You activate `composer-scripts` by adding following objects to `composer.json`
 Use `<VERSION>` "dev-master" to track master branch, or select one of these 
 [tags](https://github.com/onevoice-no/composer-scripts/tags).
 
-**Custom vendor-dir**
+### Custom vendor-dir ### 
 
 If a custom `vendor-dir` is given (see [config](http://getcomposer.org/doc/04-schema.md#config)), 
 add the following object to "extra" in `composer.json`:
@@ -41,7 +41,8 @@ add the following object to "extra" in `composer.json`:
 }
 ```
 
-**"delete" script**
+### "delete" script ### 
+
 
 Packages are often deployed with files which dependent projects do not need or care about. 
 Enable this script by adding following objects to `composer.json`.
