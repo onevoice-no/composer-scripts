@@ -29,7 +29,7 @@ You activate `composer-scripts` by adding following objects to `composer.json`
 Use `<VERSION>` "dev-master" to track master branch, or select one of these 
 [tags](https://github.com/onevoice-no/composer-scripts/tags).
 
-### Custom vendor-dir ### 
+### Custom vendor-dir ###
 
 If a custom `vendor-dir` is given (see [config](http://getcomposer.org/doc/04-schema.md#config)), 
 add the following object to "extra" in `composer.json`:
@@ -41,7 +41,7 @@ add the following object to "extra" in `composer.json`:
 }
 ```
 
-### "delete" script ### 
+### "delete" script ###
 
 
 Packages are often deployed with files which dependent projects do not need or care about. 
