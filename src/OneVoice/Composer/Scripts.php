@@ -63,7 +63,7 @@
                         'see https://github.com/onevoice-no/composer-scripts#custom-vendor-dir'."\n"
                     );
                 }
-                $strPackageDir = rtrim($aryExtra["extra"]["package-dir"], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
+                $strPackageDir = rtrim($aryExtra["package-dir"], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
                 if(strpos($strPackageDir, DIRECTORY_SEPARATOR) === 0)
                 {
                     $strRootDir = $strPackageDir;
