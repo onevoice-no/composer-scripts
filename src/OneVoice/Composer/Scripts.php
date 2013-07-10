@@ -32,7 +32,7 @@
          */
         public static function perform(Event $objEvent) 
         {
-            $strRootDir = Script::getRootDir($objEvent);
+            $strRootDir = Scripts::getRootDir($objEvent);
             $strFile = "$strRootDir/composer.json";
             $strJSON = file_get_contents($strFile);
             $aryJSON = json_decode($strJSON, true);
