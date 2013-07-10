@@ -53,7 +53,7 @@
             if(!file_exists($strFile))
             {
                 $aryExtra = $objEvent->getComposer()->getPackage()->getExtra();
-                if(!isset($aryExtra["extra"]["package-dir"])) 
+                if(!isset($aryExtra["package-dir"])) 
                 {
                     trigger_error
                     (
