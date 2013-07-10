@@ -44,6 +44,15 @@
         }// perform
         
         
+        /**
+         * Get project root directory
+         * 
+         * @param \Composer\Script\Event $objEvent
+         * 
+         * @since 10. July 2013, v. 1.00
+         * 
+         * @return string
+         */
         private static function getRootDir($objEvent)
         {
             $strRelDir = "/".str_repeat("../", 6);
