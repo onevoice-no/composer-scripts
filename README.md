@@ -30,10 +30,24 @@ You activate `composer-scripts` by adding following objects to `composer.json`
 Use `<VERSION>` "dev-master" to track master branch, or select one of these 
 [tags](https://github.com/onevoice-no/composer-scripts/tags).
 
+**Custom vendor-dir**
+
+If a custom `vendor-dir` is given (see [config](http://getcomposer.org/doc/04-schema.md#config)), 
+add the following object to "extra":
+
+```json
+"extra": 
+{ 
+  "package-dir" : "/path/to/root/package"
+}
+```
+
+to `composer.json`.
+
 **"delete" script**
 
 Packages are often deployed with files which dependent projects do not need or care about. 
-Enable this script by adding objects to `composer.json`.
+Enable this script by adding following objects to `composer.json`.
 
 Script definition example:
 
@@ -71,4 +85,4 @@ or
 }
 ```
 
-*Note*: Selectors like `"path\to\file*` are not supported.
+*Note*: Selectors like `"path\to\file*` are not supported (yet).

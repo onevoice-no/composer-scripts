@@ -32,8 +32,25 @@
          */
         public static function perform(Event $objEvent) 
         {
-            $strRootDir = realpath(dirname(__FILE__)."/../../../");
-            $strJSON = file_get_contents("$strRootDir/composer.json");
+            $strRelDir = "/".str_repeat("../", 6);
+            $strRootDir = realpath(dirname(__FILE__).$strRelDir);
+            $strFile = "$strRootDir/composer.json";
+            if(!file_exists($strFile))
+            {
+                $aryExtra = $objEvent->getComposer()->getPackage()->getExtra();
+                if(!isset($aryExtra["extra"]["package-dir"])) 
+                {
+                    trigger_error
+                    (
+                        "File [$strFile] not found. \n" . 
+                        'Add "extra" : { "package-dir" : "/path/to/root/package"} to composer.json'."\n\n".
+                        'see http://getcomposer.org/doc/04-schema.md#root-package'."\n".
+                        'see http://getcomposer.org/doc/04-schema.md#extra'."\n".
+                        'see https://github.com/onevoice-no/composer-scripts#composer-scripts'."\n"
+                    );
+                }
+            }
+            $strJSON = file_get_contents($strFile);
             $aryJSON = json_decode($strJSON, true);
             if(isset($aryJSON["delete"])) 
             {
