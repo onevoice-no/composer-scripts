@@ -61,7 +61,7 @@
                         'Add "extra" : { "package-dir" : "/path/to/root/package"} to composer.json'."\n\n".
                         'see http://getcomposer.org/doc/04-schema.md#root-package'."\n".
                         'see http://getcomposer.org/doc/04-schema.md#extra'."\n".
-                        'see https://github.com/onevoice-no/composer-scripts#composer-scripts'."\n"
+                        'see https://github.com/onevoice-no/composer-scripts#custom-vendor-dir'."\n"
                     );
                 }
                 $strPackageDir = rtrim($aryExtra["extra"]["package-dir"], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
@@ -82,7 +82,7 @@
                         'Modify "extra" : { "package-dir" : "/path/to/root/package"} in composer.json'."\n\n".
                         'see http://getcomposer.org/doc/04-schema.md#root-package'."\n".
                         'see http://getcomposer.org/doc/04-schema.md#extra'."\n".
-                        'see https://github.com/onevoice-no/composer-scripts#composer-scripts'."\n"
+                        'see https://github.com/onevoice-no/composer-scripts#custom-vendor-dir'."\n"
                     );
                 }                
             }
