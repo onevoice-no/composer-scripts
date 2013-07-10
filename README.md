@@ -20,7 +20,6 @@ You activate `composer-scripts` by adding following objects to `composer.json`
 "require": {
         "onevoice/composer-scripts": "<VERSION>"
 },
-
 "scripts": {
   "post-update-cmd": "OneVoice\\Composer\\Scripts::perform",
   "post-install-cmd": "OneVoice\\Composer\\Scripts::perform"
