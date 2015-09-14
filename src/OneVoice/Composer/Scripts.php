@@ -10,6 +10,7 @@
 
     namespace OneVoice\Composer;
     use Composer\Script\Event;
+    use Composer\Factory;
 
     /**
      * Scripts class
@@ -29,61 +30,36 @@
          */
         public static function perform(Event $objEvent) 
         {
-            $strRootDir = Scripts::getRootDir($objEvent);
-            $strFile = "$strRootDir/composer.json";
-            $strJSON = file_get_contents($strFile);
-            $aryJSON = json_decode($strJSON, true);
+            $aryJSON = json_decode(file_get_contents(Factory::getComposerFile()), true);
             if(isset($aryJSON["delete"])) {
-                Scripts::delete($objEvent, $strRootDir, $aryJSON["delete"]);
+                Scripts::delete($objEvent, Scripts::getVendorDir($objEvent), $aryJSON["delete"]);
             }
         }// perform
         
         
         /**
-         * Get project root directory
+         * Get vendor directory
          * 
          * @param \Composer\Script\Event $objEvent
          * 
-         * @since 10. July 2013, v. 1.00
+         * @since 14. september 2015, v. 1.10
          * @return string
          */
-        private static function getRootDir($objEvent)
+        private static function getVendorDir($objEvent)
         {
-            $strRelDir = "/".str_repeat("../", 6);
-            $strRootDir = realpath(__DIR__.$strRelDir);
-            $strFile = "$strRootDir/composer.json";
-            if(!file_exists($strFile)) {
-                $aryExtra = $objEvent->getComposer()->getPackage()->getExtra();
-                if(!isset($aryExtra["package-dir"])) {
-                    trigger_error(
-                        "File [$strFile] not found. \n" . 
-                        'Add "extra" : { "package-dir" : "/path/to/root/package"} to composer.json'."\n\n".
-                        'see http://getcomposer.org/doc/04-schema.md#root-package'."\n".
-                        'see http://getcomposer.org/doc/04-schema.md#extra'."\n".
-                        'see https://github.com/onevoice-no/composer-scripts#custom-vendor-dir'."\n"
-                    );
-                }
-                $strPackageDir = rtrim($aryExtra["package-dir"], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
-                if(strpos($strPackageDir, DIRECTORY_SEPARATOR) === 0) {
-                    $strRootDir = $strPackageDir;
-                } else {
-                    $strRootDir = realpath(__DIR__.DIRECTORY_SEPARATOR.$strPackageDir);
-                }
-                $strFile = "$strRootDir/composer.json";
-                if(!file_exists("$strRootDir/composer.json")) {
-                    trigger_error(
-                        "File [$strFile] not found. \n" . 
-                        'Modify "extra" : { "package-dir" : "/path/to/root/package"} in composer.json'."\n\n".
-                        'see http://getcomposer.org/doc/04-schema.md#root-package'."\n".
-                        'see http://getcomposer.org/doc/04-schema.md#extra'."\n".
-                        'see https://github.com/onevoice-no/composer-scripts#custom-vendor-dir'."\n"
-                    );
-                }                
-            }
-            
-            return $strRootDir;
+            $strVendorDir = $objEvent->getComposer()->getConfig()->get('vendor-dir');
 
-        }// getRootDir
+            // Check if path is absolute
+            if (substr($strVendorDir, 0, 1) === '/' || substr($strVendorDir, 1, 1) === ':') {
+                return $strVendorDir;
+            }
+
+            if(getenv('COMPOSER')) {
+                return trim(getenv('COMPOSER')).DIRECTORY_SEPARATOR.$strVendorDir;
+            }
+
+            return getcwd().DIRECTORY_SEPARATOR.$strVendorDir;
+        }// getVendorDir
         
         
         /**
@@ -103,20 +79,18 @@
          * }
          * </code>
          * 
-         * @param \Composer\Script\Event $objEvent
-         * @param string $strRootDir CIM (installation) directory
+         * @param Event $objEvent
+         * @param string $strVendorDir Composer vendor directory (full path)
          * @param array $aryDelete Parameters
          * 
          * @since 08. July 2013, v. 1.00
          * @return void
          */
-        private static function delete(Event $objEvent, $strRootDir, $aryDelete) 
+        private static function delete(Event $objEvent, $strVendorDir, $aryDelete)
         {
             $objIO = $objEvent->getIO();
-            $objConfig = $objEvent->getComposer()->getConfig();
-            $strVendorDir = $objConfig->get("vendor-dir");
             foreach($aryDelete as $strPackage => $mxdFileSet) {
-                $strPackageDir = "$strRootDir/$strVendorDir/$strPackage";
+                $strPackageDir = "$strVendorDir/$strPackage";
                 if(!is_dir($strPackageDir)) {
                     trigger_error("[$strPackage] not deleted: Directory [$strPackageDir] not found.");
                 }
