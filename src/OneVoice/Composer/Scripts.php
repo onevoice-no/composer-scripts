@@ -114,18 +114,16 @@
                     ), 
                     \RecursiveIteratorIterator::CHILD_FIRST
                 );        
-                $objIO->write("Deleting $strPackage ...");
                 foreach ($objDir as $objFile) {
                     $strPath = $objFile->getPathname();
                     if(is_file($strPath)) {
                         unlink($strPath);
-                        $objIO->overwrite("  Deleted $strPath", false);
+                        $objIO->write("  Deleted $strPath");
                     } elseif(is_dir($strPath) && count(glob($strPath."*/*")) === 0) {
                         rmdir($strPath);
-                        $objIO->overwrite("  Deleted $strPath", false);
+                        $objIO->write("  Deleted $strPath");
                     }
                 }
-                $objIO->overwrite("Deleting $strPackage ...DONE");
             }
         }// delete        
         
